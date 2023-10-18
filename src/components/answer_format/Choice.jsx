@@ -1,3 +1,4 @@
+import React from "react";
 function generateAlphabetArray(startChar, endChar) {
   let result = [];
   for (
@@ -22,45 +23,62 @@ const regex1 = "^[A-Z]|[a-z]$";
 const regex2 = "^[1-9]?[0-9]$";
 
 class Choice extends React.Component {
-  constructor(name, type, num, value) {
-    this.array;
-    if (value.test(regex1)) {
-      this.array = generateAlphabetArray(A, toUpperCase(vlaeu));
-    } else if (value.test(regex2)) {
-      this.array = generateArrayFrom1ToN(value);
-    } else {
-      throw new Error();
-      // リダイレクトする処理
-    }
-    this.value = {
-      value: name,
-      type: type,
-      num: num,
+  constructor(props) {
+    super(props);
+    this.state = {
+      array: [],
+      value: {
+        value: props.name, //aとか1とか
+        type: props.type, //タイプ
+        num: props.num, //問題番号
+      },
     };
-    this.jsx = [];
   }
-  //   setValueName(name) {
-  //     this.value.name = name;
-  //   }
-  //   setValueType(type) {
-  //     this.value.type = type;
-  //   }
-  //   serValue(name, type) {
-  //     this.setValueName(name);
-  //     this.setValueType(type);
-  //   }
+
+  componentDidMount() {
+    const { value } = this.state.value;
+    console.log(value);
+    console.log(this.state);
+    if (value.match(regex1)) {
+        this.setState(prev => ({
+          ...prev,
+          array:generateAlphabetArray("A", value.toUpperCase()),
+        }));
+        console.log(this.state.value)
+        console.log(this.state.array)
+    } else if (value.match(regex2)) {
+        this.setState(prev => ({
+              ...prev,
+              array:generateArrayFrom1ToN(parseInt(value, 10)),
+            }));
+        } else {
+      // リダイレクトする処理
+      // 例: this.props.history.push('/redirect-path');
+    }
+  }
+
   render() {
-    for(const i in this.array)
-    this.jsx.push(
-      <input type={this.value.type} name={this.value.num}>
-        {i}
-      </input>
-    );
+    const { array, value } = this.state;
+
     return (
       <>
-        <span>{this.value.num}</span>
-        <label>{this.jsx}</label>
+        <span>{value.num}: </span>
+        <label>
+          {array.map((item, index) => (
+            <>
+                <span>{item}</span>
+                <input
+                  key={index}
+                  type={value.type}
+                  name={value.num}
+                  value={item}
+                />
+            </>
+          ))}
+        </label>
       </>
     );
   }
 }
+
+export default Choice;
