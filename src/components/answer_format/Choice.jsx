@@ -40,18 +40,18 @@ class Choice extends React.Component {
     console.log(value);
     console.log(this.state);
     if (value.match(regex1)) {
-        this.setState(prev => ({
-          ...prev,
-          array:generateAlphabetArray("A", value.toUpperCase()),
-        }));
-        console.log(this.state.value)
-        console.log(this.state.array)
+      this.setState(prev => ({
+        ...prev,
+        array: generateAlphabetArray("A", value.toUpperCase()),
+      }));
+      console.log(this.state.value);
+      console.log(this.state.array);
     } else if (value.match(regex2)) {
-        this.setState(prev => ({
-              ...prev,
-              array:generateArrayFrom1ToN(parseInt(value, 10)),
-            }));
-        } else {
+      this.setState(prev => ({
+        ...prev,
+        array: generateArrayFrom1ToN(parseInt(value, 10)),
+      }));
+    } else {
       // リダイレクトする処理
       // 例: this.props.history.push('/redirect-path');
     }
@@ -61,22 +61,22 @@ class Choice extends React.Component {
     const { array, value } = this.state;
 
     return (
-      <>
+      <div>
         <span>{value.num}: </span>
         <label>
           {array.map((item, index) => (
             <>
-                <span>{item}</span>
-                <input
-                  key={index}
-                  type={value.type}
-                  name={value.num}
-                  value={item}
-                />
+              <input
+                key={index}
+                type={value.type}
+                name={value.num}
+                value={item}
+              />
+              <span>{item}</span>
             </>
           ))}
         </label>
-      </>
+      </div>
     );
   }
 }
